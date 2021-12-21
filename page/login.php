@@ -1,46 +1,68 @@
 <?php
-require_once('dbconnect.php');
+require_once('../dbconnect.php');
+require('check.php');
 
 if (isset($_POST['submit'])) {
+
     $username = $con->real_escape_string($_POST['username']);
     $password = $con->real_escape_string($_POST['password']);
 
-    $sql = "SELECT * FROM users_info 
-                  WHERE  username='" . $username . "' 
-                  AND  password='" . $password . "' ";
+    // $encrypt_pass = pass_encrypt($password, true);
+    // $hash_pass    = password_hash($encrypt_pass, PASSWORD_DEFAULT);
+
+    $sql = "SELECT password FROM users_info WHERE  username= '" . $username . "' ";
 
     $result = $con->query($sql);
-    $row = $result->fetch_assoc();
+    $row_password = $result->fetch_assoc();
 
-    if (!empty($row)) {
 
-        $_SESSION["id"] = $row["id"];
-        $_SESSION["username"] = $row["username"];
-        $_SESSION["name"] = $row["name"];
-        $_SESSION["address"] = $row["address"];
-        $_SESSION["tel"] = $row["tel"];
-        $_SESSION["password"] = $row["password"];
-        $_SESSION["level"] = $row["level"];
-        $_SESSION["img"] = $row["img"];
-       
+    if (!empty($row_password)) {
+        // echo "<div class='alert alert-warning' role='alert'>
+        // <b>คำใบ้ มาถูกทางแล้ว</b><br>
+        // Password in Database : ".$row_password['password']."</div>";
 
-        if($_SESSION['level'] == 'admin'){
-            header("location: profile.php");
+
+        if (password_verify(pass_encrypt($password), $row_password['password'])) {
+            $sql = "SELECT * FROM users_info 
+                  WHERE  username='" . $username . "' 
+                  AND  password='" . $row_password['password'] . "' ";
+
+            $result = $con->query($sql);
+            $row = $result->fetch_assoc();
+
+            if (!empty($row)) {
+
+                $_SESSION["id"] = $row["id"];
+                $_SESSION["username"] = $row["username"];
+                $_SESSION["name"] = $row["name"];
+                $_SESSION["address"] = $row["address"];
+                $_SESSION["tel"] = $row["tel"];
+                $_SESSION["password"] = $row["password"];
+                $_SESSION["level"] = $row["level"];
+                $_SESSION["img"] = $row["img"];
+
+                header("location: index.php");
+            } else {
+                echo "<script>";
+                echo "alert(\" username หรือ  password ไม่ถูกต้อง\");";
+                echo "</script>";
+                header('Refresh:0; url=login.php');
+            }
+        } else {
+            echo "<script>";
+            echo "alert(\" password ไม่ถูกต้อง\");";
+            echo "</script>";
         }
-        if($_SESSION['level'] == 'employee'){
-            header("location: profile.php");
-        }
-        if($_SESSION['level'] == 'member'){
-            header("location: profile.php");
-        }
-       
     } else {
-
         echo "<script>";
-        echo "alert(\" username หรือ  password ไม่ถูกต้อง\");";
+        echo "alert(\" username ไม่ถูกต้อง\");";
         echo "</script>";
-        header('Refresh:0; url=login.php');
     }
+
+
+
+    //password-verify
+
 }
 ?>
 <!DOCTYPE html>
@@ -57,15 +79,15 @@ if (isset($_POST['submit'])) {
     <!-- <link rel="stylesheet" href="../css/all.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="css/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../css/icheck-bootstrap.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet" href="css/adminlte.min.css">
+    <link rel="stylesheet" href="../css/adminlte.min.css">
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Login</b></a>
+            <a href="../../index2.html"><b>LOGIN</b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -98,6 +120,8 @@ if (isset($_POST['submit'])) {
                         <!-- /.col -->
                     </div>
                 </form>
+
+                <button class="g-recaptcha" data-sitekey="reCAPTCHA_site_key" data-callback='onSubmit' data-action='submit'>Submit</button>
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -105,11 +129,17 @@ if (isset($_POST['submit'])) {
     <!-- /.login-box -->
 
     <!-- jQuery -->
-    <script src="js/jquery.min.js"></script>
+    <script src="../js/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="js/adminlte.min.js"></script>
+    <script src="../js/adminlte.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("demo-form").submit();
+        }
+    </script>
 </body>
 
 </html>
