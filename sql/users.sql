@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2021 at 05:49 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Dec 21, 2021 at 03:16 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -43,9 +43,9 @@ CREATE TABLE `users_info` (
 --
 
 INSERT INTO `users_info` (`id`, `username`, `password`, `tel`, `address`, `level`, `img`, `name`) VALUES
-(1, 'admin', '12345678', '0800605960', '39/2 หมู่ 3 ต.สามพราน อ.สามพราน จ.นครปฐม 73110 ', 'admin', 'user.png', 'Admin'),
-(2, 'ausiri', '123456', '0922766755', '39/2 หมู่ 3 ต.สามพราน อ.สามพราน จ.นครปฐม 73110', 'member', 'user.png', 'Siriporn Ketbunlue'),
-(3, 'nackky', '12345678', '0624316818', '6/139 หมู่ 8 ตำบลอ้อมใหญ่ อำเภอสามพราน จังหวัดนครปฐม 73160', 'employee', 'user.png', 'Tanapon Visetsung');
+(1, 'test_security', '$2y$10$Xh32u2T7s/DfiXRvfibste4i0nmXt04HP9MC1jkZCCOKJpbrUVYG.', '0800605960', '39/2 หมู่ 3 ต.สามพราน อ.สามพราน จ.นครปฐม 73110 ', 'admin', 'user.png', 'Admin'),
+(2, 'ausiri', '$2y$10$Oh8r3lIhk/msrHz/T0iG6OXl4tqOu.RXVW0fjqrWUJHtX5EimVQIu', '0922766755', '39/2 หมู่ 3 ต.สามพราน อ.สามพราน จ.นครปฐม 73110', 'member', 'user.png', 'Siriporn Ketbunlue'),
+(3, 'nackky', '$2y$10$ABYHB2u0KnqW1emgNOSAaeOsAEkwudJ23GW4pGcMKodOtIQCDcKHG', '0624316818', '6/139 หมู่ 8 ตำบลอ้อมใหญ่ อำเภอสามพราน จังหวัดนครปฐม 73160', 'employee', 'user.png', 'Tanapon Visetsung');
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ INSERT INTO `user_role` (`id`, `page`, `role`, `link`, `icon`) VALUES
 (2, 'Control Setting', 'admin1,0,employee1,member1,0,admin2,0,admin3,0,employee3,0,member3,0,0,member4,0,admin5,0,employee5,0,member5', 'control.php', 'nav-icon fas fa-cogs'),
 (3, 'Orders', 'admin1,0,employee1,member1,0,admin2,0,admin3,0,employee3,0,member3,0,0,member4,0,admin5,0,employee5,0,member5', 'order.php', 'nav-icon fas fa-receipt'),
 (4, 'Purchasing', 'admin1,0,employee1,0,member1,0,admin2,0,admin3,0,employee3,0,member3,0,0,employee4,0,admin5,0,employee5,0,member5,0', 'purchase.php', 'nav-icon fas fa-money-check-alt'),
-(5, 'Shop Info', 'admin1,0,employee1,0,member1,0,admin2,0,admin3,0,employee3,0,member3,0,admin4,0,employee4,0,admin5,0,employee5,0,member5,0', 'shopinfo.php', 'nav-icon fas fa-store'),
+(5, 'Shop Info', 'admin1,0,employee1,0,member1,0,admin2,0,admin3,0,employee3,0,member3,0,employee4,0,admin5,employee5,0,member5,0', 'shopinfo.php', 'nav-icon fas fa-store'),
 (9, 'Column', 'admin1,0,employee1,0,member1,0,admin2,0,admin3,0,employee3,0,member3,0,admin4,0,employee4,0,admin5,0,employee5,0,member5,0,0', 'column.php', 'nav-icon fas fa-columns');
 
 --

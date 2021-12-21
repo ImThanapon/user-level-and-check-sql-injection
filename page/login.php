@@ -118,10 +118,14 @@ if (isset($_POST['submit'])) {
                             <button type="submit" name="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
+                        <div class="ml-2 mt-2">
+                            <a href="register.php">You are not registered yet ? Click.</a>
+                        </div>
+                        
                     </div>
                 </form>
 
-                <button class="g-recaptcha" data-sitekey="reCAPTCHA_site_key" data-callback='onSubmit' data-action='submit'>Submit</button>
+                
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -134,12 +138,7 @@ if (isset($_POST['submit'])) {
     <script src="../js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../js/adminlte.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-    <script>
-        function onSubmit(token) {
-            document.getElementById("demo-form").submit();
-        }
-    </script>
+    
 </body>
 
 </html>
